@@ -1,4 +1,5 @@
 const { rmSync } = require("fs")
+require("dotenv").config()
 const { initializeDatabase } = require("./db/db.connect")
 const Book = require("./models/books.models")
 
