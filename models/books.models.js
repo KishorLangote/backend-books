@@ -37,7 +37,7 @@ const booksSchema = new mongoose.Schema({
     },
 }, 
 {
-    timeStamp: true
+    timestamps: true
 })
 
 const Book = mongoose.model("Book", booksSchema)
