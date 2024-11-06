@@ -10,11 +10,13 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
+
+
 const express = require("express")
 const app = express()
 
-app.use(express.json())
+app.use(express.json()) // middlerware
+app.use(cors(corsOptions)); // middlerware
 
 initializeDatabase() // this means calling the database...
 
