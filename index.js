@@ -20,8 +20,7 @@ initializeDatabase() // this means calling the database...
 
 // 1. Create an API with route "/books" to create a new book data in the books Database. Make sure to do error handling. Test your API with Postman. Add the following book:
 
-const books = [
-    {
+const books = {
         title: "Lean In",
         author: "Sheryl Sandberg",
         publishedYear: 2012,
@@ -31,28 +30,17 @@ const books = [
         rating: 4.1,
         summary: "A book about empowering women in the workplace and achieving leadership roles.",
         coverImageUrl: "https://example.com/lean_in.jpg",
-      },
-
-      {
-        title: "Shoe Dog",
-        author: "Phil Knight",
-        publishedYear: 2016,
-        genre: ["Autobiography", "Business"],
-        language: "English",
-        country: "United States",
-        rating: 4.5,
-        summary: "An inspiring memoir by the co-founder of Nike, detailing the journey of building a global athletic brand.",
-        coverImageUrl: "https://example.com/shoe_dog.jpg"
       }
-    ]
+
+     
 
 app.get("/", (req, res) => {
     res.send("Hello, Express server")
 })
 
-app.get("/books", (req, res) => {
-    res.send(books)
-})
+// app.get("/books", (req, res) => {
+//     res.send(books)
+// })
 
 // 2. Run your API and create another book data in the db.
 
@@ -68,7 +56,35 @@ app.get("/books", (req, res) => {
 //     coverImageUrl: "https://example.com/shoe_dog.jpg"
 //   };
 
-  // createNewBook(newBook)
+// const newBook = {
+//     title: "The Alchemist",
+//     author: "Paulo Coelho",
+//     publishedYear: 1988,
+//     genre: ["Fiction", "Adventure"],
+//     language: "Portuguese",
+//     country: "Brazil",
+//     rating: 4.7,
+//     summary: "A mystical journey of self-discovery and pursuing one's dreams, following Santiago, a shepherd boy.",
+//     coverImageUrl: "https://example.com/the_alchemist.jpg"
+// }
+
+const newBook =  {
+    title: "Thinking, Fast and Slow",
+    author: "Daniel Kahneman",
+    publishedYear: 2011,
+    genre: ["Psychology", "Non-fiction"],
+    language: "English",
+    country: "United States",
+    rating: 4.4,
+    summary: "An exploration of the two systems that drive our thoughts: intuitive and deliberate thinking.",
+    coverImageUrl: "https://example.com/thinking_fast_slow.jpg"
+}
+
+
+
+
+
+//   createNewBook(newBook)
 
 async function createNewBook(newBook){
     try {
@@ -114,12 +130,15 @@ async function readBooksByTitle(bookTitle){
     try {
         const bookByTitle = await Book.find({title: bookTitle})
         return bookByTitle
+        //    console.log(bookByTitle)
     } catch (error) {
         throw error
     }
 }
 
-app.get("/books/:bookTitle", async (req, res) => {
+readBooksByTitle("Shoe Dog")
+
+app.get("/books/title/:bookTitle", async (req, res) => {
     try {
         const books = await readBooksByTitle(req.params.bookTitle)
         if(books.length > 0){
@@ -208,7 +227,7 @@ app.get("/books/year/:bookPublishedYear", async (req, res) => {
 // Updated book rating: { "rating": 4.5 }
 
 
-async function updateBook(bookId, dataToUpdate){
+async function updateBookById(bookId, dataToUpdate){
     try {
         const updatedBook = await Book.findByIdAndUpdate(bookId, dataToUpdate, {new: true})
         return updatedBook
@@ -221,7 +240,7 @@ async function updateBook(bookId, dataToUpdate){
 
 app.post("/books/:bookId", async (req, res) => {
     try {
-        const updatedBook = await updateBook(req.params.bookId, req.body)
+        const updatedBook = await updateBookById(req.params.bookId, req.body)
         if(updatedBook){
             res.status(200).json({message: "Book updated successfully.", book: updatedBook})
         } else {
@@ -236,7 +255,7 @@ app.post("/books/:bookId", async (req, res) => {
 
 // Updated book data: { "publishedYear": 2017, "rating": 4.2 }
 
-async function updateBook(bookTitle, dataToUpdate){
+async function updateBookByTitle(bookTitle, dataToUpdate){
     try {
         const updatedBook = await Book.findOneAndUpdate({title: bookTitle}, dataToUpdate, {new: true})
         return updatedBook
@@ -248,7 +267,7 @@ async function updateBook(bookTitle, dataToUpdate){
 
 app.post("/books/bookTitle", async (req, res) => {
     try {
-        const updatedBook = await updateBook(req.params.bookTitle, req.body)
+        const updatedBook = await updateBookByTitle(req.params.bookTitle, req.body)
         if(updatedBook){
             res.status(201).json({message: "Book updated successfully."})
         } else {
