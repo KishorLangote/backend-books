@@ -10,8 +10,6 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
-
-
 const express = require("express")
 const app = express()
 
