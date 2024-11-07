@@ -98,6 +98,16 @@ async function createNewBook(newBook){
     }
 }
 
+// write route for creating & storing a new book entry in a database..
+
+app.post("/books", async (req, res) => {
+    try {
+        const saveBook = await createNewBook(req.body)
+        res.status(201).json({message: "Book added successfullly.", book: saveBook})
+    } catch(error) {
+        res.status(500).json({error: "Failed to add book."})
+    }
+})
 
 
 // 3. Create an API to get all the books in the database as response. Make sure to do error handling.
