@@ -1,7 +1,7 @@
+const express = require("express")
 const { rmSync } = require("fs")
 require("dotenv").config()
-const { initializeDatabase } = require("./db/db.connect")
-const Book = require("./models/books.models")
+const app = express()
 
 const cors = require("cors");
 const corsOptions = {
@@ -10,11 +10,13 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
-const express = require("express")
-const app = express()
+app.use(cors(corsOptions)); // middlerware
+
+
+const { initializeDatabase } = require("./db/db.connect")
+const Book = require("./models/books.models")
 
 app.use(express.json()) // middlerware
-app.use(cors(corsOptions)); // middlerware
 
 initializeDatabase() // this means calling the database...
 
