@@ -92,7 +92,8 @@ async function createNewBook(newBook){
     try {
         const book = new Book(newBook)
         const saveBook = await book.save()
-        console.log("New Book:", saveBook)
+        return saveBook
+        // console.log("New Book:", saveBook)
     } catch(error){
         throw error
     }
